@@ -1,0 +1,98 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Calculator {
+public:
+
+    double add(double a, double b) { return a + b; }
+
+    double subtract(double a, double b) { return a - b; }
+
+    double multiply(double a, double b) { return a * b; }
+
+    double divide(double a, double b) {
+        if (b == 0) {
+            cout << "0-a bolme yoxdur!\n";
+            return 0;
+        }
+        return a / b;
+    }
+
+    double percentage(double a, double b) {
+        return (a * b) / 100;
+    }
+
+    double squareRoot(double a) {
+        return sqrt(a);
+    }
+
+    double power(double a, double b) {
+        return pow(a, b);
+    }
+
+    double sine(double a) {
+        return sin(a * M_PI / 180); // Derece ile
+    }
+
+    double cosine(double a) {
+        return cos(a * M_PI / 180);
+    }
+
+    double tangent(double a) {
+        return tan(a * M_PI / 180);
+    }
+
+    double log10calc(double a) {
+        return log10(a);
+    }
+
+    double ln(double a) {
+        return log(a);
+    }
+
+    double factorial(int n) {
+        if (n < 0) return -1;
+        double result = 1;
+        for (int i = 1; i <= n; i++)
+            result *= i;
+        return result;
+    }
+};
+
+int main() {
+
+    Calculator calc;
+    int choice;
+    double a, b;
+
+    do {
+        cout << "\n===== OOP SCIENTIFIC CALCULATOR =====\n";
+        cout << "1. +\n2. -\n3. *\n4. /\n5. %\n6. sqrt\n7. x^y\n";
+        cout << "8. sin\n9. cos\n10. tan\n11. log10\n12. ln\n13. factorial\n0. Exit\n";
+        cout << "Secim: ";
+        cin >> choice;
+
+        switch(choice) {
+
+            case 1: cin >> a >> b; cout << calc.add(a,b); break;
+            case 2: cin >> a >> b; cout << calc.subtract(a,b); break;
+            case 3: cin >> a >> b; cout << calc.multiply(a,b); break;
+            case 4: cin >> a >> b; cout << calc.divide(a,b); break;
+            case 5: cin >> a >> b; cout << calc.percentage(a,b); break;
+            case 6: cin >> a; cout << calc.squareRoot(a); break;
+            case 7: cin >> a >> b; cout << calc.power(a,b); break;
+            case 8: cin >> a; cout << calc.sine(a); break;
+            case 9: cin >> a; cout << calc.cosine(a); break;
+            case 10: cin >> a; cout << calc.tangent(a); break;
+            case 11: cin >> a; cout << calc.log10calc(a); break;
+            case 12: cin >> a; cout << calc.ln(a); break;
+            case 13: cin >> a; cout << calc.factorial(a); break;
+            case 0: cout << "Baglandi\n"; break;
+            default: cout << "Yanlis secim!\n";
+        }
+
+    } while(choice != 0);
+
+    return 0;
+}
