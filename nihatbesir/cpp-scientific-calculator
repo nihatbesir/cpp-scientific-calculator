@@ -1,6 +1,10 @@
 #include <iostream>
 #include <cmath>
+
 using namespace std;
+
+// M_PI xətasının qarşısını almaq üçün sabit pi tərifi
+const double PI = acos(-1.0);
 
 class Calculator {
 public:
@@ -13,7 +17,7 @@ public:
 
     double divide(double a, double b) {
         if (b == 0) {
-            cout << "0-a bolme yoxdur!\n";
+            cout << "Xəta: 0-a bölmə yoxdur!\n";
             return 0;
         }
         return a / b;
@@ -24,6 +28,10 @@ public:
     }
 
     double squareRoot(double a) {
+        if (a < 0) {
+            cout << "Xəta: Mənfi ədədin kvadrat kökü yoxdur!\n";
+            return 0;
+        }
         return sqrt(a);
     }
 
@@ -32,27 +40,43 @@ public:
     }
 
     double sine(double a) {
-        return sin(a * M_PI / 180); // Derece ile
+        return sin(a * PI / 180.0); // Dərəcə ilə
     }
 
     double cosine(double a) {
-        return cos(a * M_PI / 180);
+        return cos(a * PI / 180.0);
     }
 
     double tangent(double a) {
-        return tan(a * M_PI / 180);
+        // 90, 270, 450 kimi dərəcələrdə tan təyin olunmayıb
+        if (fmod(a, 180.0) == 90.0 || fmod(a, 180.0) == -90.0) {
+            cout << "Xəta: Tangens bu dərəcədə təyin olunmayıb!\n";
+            return 0;
+        }
+        return tan(a * PI / 180.0);
     }
 
     double log10calc(double a) {
+        if (a <= 0) {
+            cout << "Xəta: Logarifm üçün ədəd 0-dan böyük olmalıdır!\n";
+            return 0;
+        }
         return log10(a);
     }
 
     double ln(double a) {
+        if (a <= 0) {
+            cout << "Xəta: ln üçün ədəd 0-dan böyük olmalıdır!\n";
+            return 0;
+        }
         return log(a);
     }
 
     double factorial(int n) {
-        if (n < 0) return -1;
+        if (n < 0) {
+            cout << "Xəta: Mənfi ədədin faktorialı yoxdur!\n";
+            return -1;
+        }
         double result = 1;
         for (int i = 1; i <= n; i++)
             result *= i;
@@ -65,31 +89,60 @@ int main() {
     Calculator calc;
     int choice;
     double a, b;
+    int n; // Faktorial üçün tam ədəd
 
     do {
         cout << "\n===== OOP SCIENTIFIC CALCULATOR =====\n";
         cout << "1. +\n2. -\n3. *\n4. /\n5. %\n6. sqrt\n7. x^y\n";
-        cout << "8. sin\n9. cos\n10. tan\n11. log10\n12. ln\n13. factorial\n0. Exit\n";
-        cout << "Secim: ";
+        cout << "8. sin\n9. cos\n10. tan\n11. log10\n12. ln\n13. factorial\n0. Çıxış\n";
+        cout << "Seçim edin: ";
         cin >> choice;
 
         switch(choice) {
 
-            case 1: cin >> a >> b; cout << calc.add(a,b); break;
-            case 2: cin >> a >> b; cout << calc.subtract(a,b); break;
-            case 3: cin >> a >> b; cout << calc.multiply(a,b); break;
-            case 4: cin >> a >> b; cout << calc.divide(a,b); break;
-            case 5: cin >> a >> b; cout << calc.percentage(a,b); break;
-            case 6: cin >> a; cout << calc.squareRoot(a); break;
-            case 7: cin >> a >> b; cout << calc.power(a,b); break;
-            case 8: cin >> a; cout << calc.sine(a); break;
-            case 9: cin >> a; cout << calc.cosine(a); break;
-            case 10: cin >> a; cout << calc.tangent(a); break;
-            case 11: cin >> a; cout << calc.log10calc(a); break;
-            case 12: cin >> a; cout << calc.ln(a); break;
-            case 13: cin >> a; cout << calc.factorial(a); break;
-            case 0: cout << "Baglandi\n"; break;
-            default: cout << "Yanlis secim!\n";
+            case 1: 
+                cout << "İki ədəd daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.add(a,b) << "\n"; break;
+            case 2: 
+                cout << "İki ədəd daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.subtract(a,b) << "\n"; break;
+            case 3: 
+                cout << "İki ədəd daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.multiply(a,b) << "\n"; break;
+            case 4: 
+                cout << "Bölünən və böləni daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.divide(a,b) << "\n"; break;
+            case 5: 
+                cout << "Ədəd və faizi daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.percentage(a,b) << "\n"; break;
+            case 6: 
+                cout << "Ədəd daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.squareRoot(a) << "\n"; break;
+            case 7: 
+                cout << "Əsas və üstü daxil edin: "; cin >> a >> b; 
+                cout << "Nəticə: " << calc.power(a,b) << "\n"; break;
+            case 8: 
+                cout << "Dərəcəni daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.sine(a) << "\n"; break;
+            case 9: 
+                cout << "Dərəcəni daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.cosine(a) << "\n"; break;
+            case 10: 
+                cout << "Dərəcəni daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.tangent(a) << "\n"; break;
+            case 11: 
+                cout << "Ədəd daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.log10calc(a) << "\n"; break;
+            case 12: 
+                cout << "Ədəd daxil edin: "; cin >> a; 
+                cout << "Nəticə: " << calc.ln(a) << "\n"; break;
+            case 13: 
+                cout << "Tam ədəd daxil edin: "; cin >> n; 
+                cout << "Nəticə: " << calc.factorial(n) << "\n"; break;
+            case 0: 
+                cout << "Proqram bağlandı.\n"; break;
+            default: 
+                cout << "Yanlış seçim! Yenidən cəhd edin.\n";
         }
 
     } while(choice != 0);
